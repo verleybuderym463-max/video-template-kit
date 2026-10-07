@@ -1,0 +1,10 @@
+{
+  "scene": "hotel-lobby",
+  "references": [
+    { "role": "left-performer", "source": "./inputs/alice.jpg", "framing": "portrait" },
+    { "role": "right-performer", "source": "./inputs/bob.png", "framing": "portrait" }
+  ],
+  "sourceVideo": "./inputs/authorized-performance.mp4",
+  "parameters": { "durationSeconds": 8, "resolution": "720p", "aspectRatio": "9:16" },
+  "capabilities": { "minDurationSeconds": 4, "maxDurationSeconds": 12, "resolutions": ["720p"], "aspectRatios": ["9:16", "16:9"] }
+}

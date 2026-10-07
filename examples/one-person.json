@@ -1,0 +1,9 @@
+{
+  "scene": "gang-gang-dance",
+  "references": [
+    { "role": "lead-dancer", "source": "./inputs/person.jpg", "framing": "portrait" }
+  ],
+  "sourceVideo": "./inputs/authorized-stage.mp4",
+  "parameters": { "durationSeconds": 8, "resolution": "720p", "aspectRatio": "9:16" },
+  "capabilities": { "minDurationSeconds": 4, "maxDurationSeconds": 12, "resolutions": ["720p"], "aspectRatios": ["9:16", "16:9"] }
+}

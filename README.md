@@ -4,7 +4,7 @@ Prepare one-person and two-person video-template inputs with explicit photo slot
 
 Zero dependencies. JavaScript ES modules. Node.js 20 or newer. MIT licensed.
 
-[Browse the hosted video templates](https://aivideoswap.com/templates?utm_source=github&utm_medium=referral&utm_campaign=video-template-kit&utm_content=readme) | [Two-person role mapping](docs/two-person-role-mapping.md) | [Browser demo source](demo/index.html)
+[Try the offline browser demo](https://verleybuderym463-max.github.io/video-template-kit/demo/) | [Browse the hosted video templates](https://aivideoswap.com/templates?utm_source=github&utm_medium=referral&utm_campaign=video-template-kit&utm_content=readme) | [Two-person role mapping](docs/two-person-role-mapping.md)
 
 ## What works
 

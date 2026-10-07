@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Video Template Kit - Local input mapping</title>
+  <style>
+    :root { color-scheme: light; font-family: system-ui, sans-serif; color: #24272b; background: #f5f6f7; }
+    * { box-sizing: border-box; letter-spacing: 0; }
+    body { margin: 0; }
+    header { background: #fff; border-bottom: 1px solid #d9dde1; padding: 18px 24px; }
+    header div { max-width: 1140px; margin: auto; display: flex; align-items: center; flex-wrap: wrap; gap: 12px; }
+    header strong { font-size: 18px; }
+    header a { margin-left: auto; }
+    a { color: #087467; text-underline-offset: 3px; }
+    main { max-width: 1188px; padding: 28px 24px 40px; margin: auto; }
+    h1 { font-size: 26px; margin: 0 0 8px; }
+    h2 { font-size: 18px; margin: 0 0 18px; }
+    p { font-size: 14px; line-height: 1.6; margin: 0 0 20px; }
+    .subtle { color: #62686f; }
+    .layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; }
+    section { min-width: 0; }
+    .surface { background: #fff; border: 1px solid #d9dde1; border-radius: 6px; padding: 20px; }
+    label { display: block; font-size: 13px; font-weight: 600; margin: 16px 0 7px; }
+    select, input { min-width: 0; width: 100%; min-height: 42px; border: 1px solid #bcc3c9; background: #fff; border-radius: 4px; color: #24272b; font: inherit; font-size: 14px; padding: 9px; }
+    input[type=file] { padding: 8px; font-size: 12px; }
+    input[type=file]::file-selector-button { background: #eceff1; border: 0; padding: 6px 8px; border-radius: 3px; margin-right: 6px; color: #24272b; }
+    button { cursor: pointer; min-height: 42px; border-radius: 4px; border: 1px solid #bcc3c9; background: #fff; padding: 10px 14px; font: inherit; font-size: 14px; }
+    button.primary { background: #087467; color: #fff; border-color: #087467; }
+    button:disabled { opacity: .5; cursor: default; }
+    button:hover:not(:disabled) { filter: brightness(.96); }
+    :focus-visible { outline: 3px solid #e0a72c; outline-offset: 2px; }
+    .slots { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 20px 0; }
+    .slots.single { grid-template-columns: minmax(0, 1fr); max-width: 260px; }
+    .photo { aspect-ratio: 4 / 3; width: 100%; background: #eceff1; display: grid; place-items: center; border: 1px dashed #b8c1c8; overflow: hidden; border-radius: 4px; }
+    .photo img { width: 100%; height: 100%; object-fit: contain; }
+    .photo span { color: #747c84; font-size: 13px; }
+    .slot label:first-child { margin-top: 0; }
+    .framing { font-size: 12px; color: #62686f; margin-top: 6px; }
+    .parameters { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+    .actions { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+    pre { margin: 0; padding: 16px; background: #f3f5f6; color: #333b43; min-height: 390px; max-height: 560px; overflow: auto; font-size: 12px; line-height: 1.6; border-radius: 4px; white-space: pre-wrap; overflow-wrap: anywhere; }
+    #feedback { min-height: 46px; margin: 14px 0; font-size: 14px; line-height: 1.5; }
+    #feedback[data-state=error] { color: #aa3042; }
+    #feedback[data-state=valid] { color: #087467; }
+    #feedback ul { margin: 8px 0; padding-left: 20px; }
+    footer { border-top: 1px solid #d9dde1; padding: 18px 24px; text-align: center; font-size: 13px; }
+    @media (max-width: 760px) { .layout { grid-template-columns: minmax(0, 1fr); gap: 24px; } main { padding: 22px 16px; } header { padding: 16px; } .surface { padding: 16px; } }
+    @media (max-width: 360px) { .parameters { grid-template-columns: minmax(0, 1fr); gap: 0; } .slots { gap: 10px; } button { padding: 10px; } }
+  </style>
+</head>
+<body>
+  <header><div><strong>Video Template Kit</strong><span class="subtle">by AI Video Swap</span><a href="https://aivideoswap.com/templates?utm_source=github&utm_medium=referral&utm_campaign=video-template-kit&utm_content=demo-header" target="_blank" rel="noopener">Hosted templates</a></div></header>
+  <main>
+    <h1>Input mapping</h1>
+    <p class="subtle">Photos stay in this browser. This demo prepares input metadata; it does not generate a video.</p>
+    <div class="layout">
+      <section class="surface" aria-labelledby="input-heading">
+        <h2 id="input-heading">Scene and references</h2>
+        <label for="scene">Scene</label><select id="scene"></select>
+        <p id="scene-description" class="subtle" style="margin-top:10px"></p>
+        <div id="slots" class="slots"></div>
+        <button id="swap" type="button">Swap photos</button>
+        <label for="source-video">Your licensed reference video (path or URL)</label>
+        <input id="source-video" value="./media/reference.mp4" spellcheck="false">
+        <div class="parameters">
+          <div><label for="duration">Duration (seconds)</label><input id="duration" type="number" min="1" max="15" step="1" value="3"></div>
+          <div><label for="resolution">Resolution</label><select id="resolution"><option>720p</option><option>1080p</option></select></div>
+          <div><label for="ratio">Aspect ratio</label><select id="ratio"><option>9:16</option><option>16:9</option><option>1:1</option></select></div>
+        </div>
+        <p class="subtle" style="margin-top:14px">Example capability declaration: 1-15 seconds, 720p/1080p, and the listed aspect ratios. These are demo limits, not hosted service limits. Photo framing is declared from the selected scene, not detected.</p>
+        <div class="actions"><button id="prepare" class="primary" type="button">Prepare request</button><a id="make" target="_blank" rel="noopener">Make this on AI Video Swap</a></div>
+      </section>
+      <section aria-labelledby="output-heading">
+        <h2 id="output-heading">Request preview</h2>
+        <div id="feedback" role="status" aria-live="polite">Choose the required photos to prepare a request.</div>
+        <pre id="output">No request prepared.</pre>
+        <div class="actions"><button id="download" type="button" disabled>Download JSON</button></div>
+        <p class="subtle" style="margin-top:14px">The manifest contains role-specific placeholder paths. Your integration supplies the actual media and maps this manifest to its provider. Opening the hosted site does not transfer these photos.</p>
+      </section>
+    </div>
+  </main>
+  <footer><a href="https://github.com/verleybuderym463-max/video-template-kit">Source and documentation</a> &middot; MIT licensed</footer>
+  <script type="module">
+    import { SCENES, validate, prepare } from '../src/index.js';
+
+    const $ = (id) => document.getElementById(id);
+    const selections = new Map();
+    const pending = new Map();
+    let sceneRevision = 0;
+    let manifest = null;
+    for (const scene of Object.values(SCENES)) {
+      const option = document.createElement('option');
+      option.value = scene.slug;
+      option.textContent = scene.title;
+      $('scene').append(option);
+    }
+
+    function invalidate() {
+      manifest = null;
+      $('download').disabled = true;
+      $('output').textContent = 'No request prepared.';
+      $('feedback').textContent = 'Inputs changed. Prepare the request to validate them.';
+      $('feedback').dataset.state = '';
+    }
+
+    function disposePhotos() {
+      for (const entry of selections.values()) URL.revokeObjectURL(entry.url);
+      selections.clear();
+    }
+
+    function syncPending() {
+      $('prepare').disabled = pending.size > 0;
+      $('swap').disabled = pending.size > 0;
+    }
+
+    function renderSlots() {
+      const scene = SCENES[$('scene').value];
+      $('slots').replaceChildren();
+      $('slots').classList.toggle('single', scene.slots.length === 1);
+      $('swap').hidden = scene.slots.length !== 2;
+      for (const slot of scene.slots) {
+        const block = document.createElement('div');
+        block.className = 'slot';
+        const label = document.createElement('label');
+        label.htmlFor = `photo-${slot.role}`;
+        label.textContent = slot.label;
+        const preview = document.createElement('div');
+        preview.className = 'photo';
+        const entry = selections.get(slot.role);
+        if (entry) {
+          const img = document.createElement('img');
+          img.src = entry.url;
+          img.alt = `Local preview for ${slot.label}`;
+          preview.append(img);
+        } else {
+          const empty = document.createElement('span');
+          empty.textContent = 'No photo selected';
+          preview.append(empty);
+        }
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.id = `photo-${slot.role}`;
+        input.accept = 'image/jpeg,image/png,image/webp';
+        input.addEventListener('change', async () => {
+          const file = input.files?.[0];
+          if (!file) return;
+          invalidate();
+          if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
+            pending.delete(slot.role);
+            syncPending();
+            const previous = selections.get(slot.role);
+            if (previous) URL.revokeObjectURL(previous.url);
+            selections.delete(slot.role);
+            renderSlots();
+            $('feedback').textContent = 'Choose a JPEG, PNG, or WebP image.';
+            $('feedback').dataset.state = 'error';
+            return;
+          }
+          const revision = sceneRevision;
+          const token = Symbol(slot.role);
+          pending.set(slot.role, token);
+          syncPending();
+          let digest;
+          try {
+            digest = await crypto.subtle.digest('SHA-256', await file.arrayBuffer());
+          } catch {
+            if (revision !== sceneRevision || pending.get(slot.role) !== token) return;
+            pending.delete(slot.role);
+            syncPending();
+            $('feedback').textContent = 'Could not read this image. Choose it again.';
+            $('feedback').dataset.state = 'error';
+            return;
+          }
+          if (revision !== sceneRevision || pending.get(slot.role) !== token) return;
+          pending.delete(slot.role);
+          syncPending();
+          const hash = Array.from(new Uint8Array(digest), (value) => value.toString(16).padStart(2, '0')).join('');
+          const previous = selections.get(slot.role);
+          if (previous) URL.revokeObjectURL(previous.url);
+          selections.set(slot.role, { file, hash, url: URL.createObjectURL(file) });
+          invalidate();
+          renderSlots();
+        });
+        const framing = document.createElement('div');
+        framing.className = 'framing';
+        framing.textContent = `${slot.framing === 'full-body' ? 'Full-body' : 'Portrait'} photo${entry ? ` | ${entry.file.name}` : ''}`;
+        block.append(label, preview, input, framing);
+        if (entry) {
+          const remove = document.createElement('button');
+          remove.type = 'button';
+          remove.textContent = 'Remove photo';
+          remove.style.marginTop = '8px';
+          remove.addEventListener('click', () => {
+            pending.delete(slot.role);
+            syncPending();
+            URL.revokeObjectURL(entry.url);
+            selections.delete(slot.role);
+            invalidate();
+            renderSlots();
+          });
+          block.append(remove);
+        }
+        $('slots').append(block);
+      }
+    }
+
+    function renderScene() {
+      sceneRevision += 1;
+      pending.clear();
+      syncPending();
+      disposePhotos();
+      const scene = SCENES[$('scene').value];
+      $('scene-description').textContent = scene.description;
+      $('make').href = `${scene.website}?utm_source=github&utm_medium=referral&utm_campaign=video-template-kit&utm_content=demo-${scene.slug}`;
+      invalidate();
+      renderSlots();
+    }
+
+    $('scene').addEventListener('change', renderScene);
+    for (const id of ['source-video', 'duration', 'resolution', 'ratio']) $(id).addEventListener('input', invalidate);
+    $('swap').addEventListener('click', () => {
+      const [left, right] = SCENES[$('scene').value].slots;
+      if (!left || !right) return;
+      const a = selections.get(left.role);
+      const b = selections.get(right.role);
+      selections.delete(left.role);
+      selections.delete(right.role);
+      if (b) selections.set(left.role, b);
+      if (a) selections.set(right.role, a);
+      invalidate();
+      renderSlots();
+    });
+
+    $('prepare').addEventListener('click', () => {
+      if (pending.size) return;
+      const scene = SCENES[$('scene').value];
+      const chosen = Array.from(selections.values());
+      if (new Set(chosen.map((entry) => entry.hash)).size !== chosen.length) {
+        invalidate();
+        $('feedback').dataset.state = 'error';
+        $('feedback').textContent = 'Choose separate photo files for each performer; the selected files have identical contents.';
+        return;
+      }
+      const config = {
+        scene: scene.slug,
+        sourceVideo: $('source-video').value.trim(),
+        references: scene.slots.flatMap((slot) => {
+          const entry = selections.get(slot.role);
+          if (!entry) return [];
+          const extension = { 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp' }[entry.file.type];
+          return [{ role: slot.role, source: `./references/${slot.role}.${extension}`, framing: slot.framing }];
+        }),
+        parameters: { durationSeconds: Number($('duration').value), resolution: $('resolution').value, aspectRatio: $('ratio').value },
+        capabilities: { minDurationSeconds: 1, maxDurationSeconds: 15, resolutions: ['720p', '1080p'], aspectRatios: ['9:16', '16:9', '1:1'] }
+      };
+      const result = validate(config);
+      $('feedback').replaceChildren();
+      if (!result.ok) {
+        manifest = null;
+        $('download').disabled = true;
+        $('output').textContent = 'No valid request prepared.';
+        $('feedback').dataset.state = 'error';
+        const list = document.createElement('ul');
+        for (const error of result.errors) {
+          const item = document.createElement('li');
+          item.textContent = typeof error === 'string' ? error : `${error.path || error.field || 'input'}: ${error.message || JSON.stringify(error)}`;
+          list.append(item);
+        }
+        $('feedback').append(list);
+        return;
+      }
+      manifest = prepare(config);
+      $('feedback').dataset.state = 'valid';
+      $('feedback').textContent = 'Input metadata is valid. No media uploaded or video generated.';
+      $('output').textContent = JSON.stringify(manifest, null, 2);
+      $('download').disabled = false;
+    });
+
+    $('download').addEventListener('click', () => {
+      if (!manifest) return;
+      const url = URL.createObjectURL(new Blob([JSON.stringify(manifest, null, 2)], { type: 'application/json' }));
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `${$('scene').value}-request.json`;
+      link.click();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    });
+    window.addEventListener('beforeunload', disposePhotos);
+    renderScene();
+  </script>
+</body>
+</html>

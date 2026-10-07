@@ -1,0 +1,20 @@
+{
+  "name": "@aivideoswap/video-template-kit",
+  "version": "0.1.0",
+  "description": "Offline photo-slot validation and provider-neutral request preparation for video templates.",
+  "type": "module",
+  "license": "MIT",
+  "engines": { "node": ">=20" },
+  "exports": "./src/index.js",
+  "bin": { "video-template-kit": "./bin/video-template-kit.js" },
+  "scripts": {
+    "test": "node --test",
+    "demo": "node scripts/serve-demo.js",
+    "validate:example": "node bin/video-template-kit.js validate examples/two-person.json",
+    "prepare:example": "node bin/video-template-kit.js prepare examples/two-person.json"
+  },
+  "files": ["src", "bin", "examples", "demo", "scripts", "docs", "README.md", "LICENSE", "MEDIA-LICENSES.md", "CHANGELOG.md"],
+  "repository": { "type": "git", "url": "https://github.com/verleybuderym463-max/video-template-kit.git" },
+  "homepage": "https://github.com/verleybuderym463-max/video-template-kit#readme",
+  "keywords": ["video-template", "role-mapping", "input-validation", "offline", "aivideoswap"]
+}
